@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5009490F256FB1D3002197D4 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009490E256FB1D3002197D4 /* Service.swift */; };
+		50094913256FB385002197D4 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50094912256FB385002197D4 /* Network.swift */; };
+		501FF922256FF03D003193DE /* Text+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501FF921256FF03D003193DE /* Text+Extension.swift */; };
 		5041098F256ECA8B00DCE270 /* WiBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5041098E256ECA8B00DCE270 /* WiBuddyApp.swift */; };
 		50410991256ECA8B00DCE270 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50410990256ECA8B00DCE270 /* ContentView.swift */; };
 		50410993256ECA8C00DCE270 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50410992256ECA8C00DCE270 /* Assets.xcassets */; };
@@ -14,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5009490E256FB1D3002197D4 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		50094912256FB385002197D4 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		501FF921256FF03D003193DE /* Text+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extension.swift"; sourceTree = "<group>"; };
 		5041098B256ECA8B00DCE270 /* WiBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WiBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5041098E256ECA8B00DCE270 /* WiBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiBuddyApp.swift; sourceTree = "<group>"; };
 		50410990256ECA8B00DCE270 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,6 +40,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		50094915256FB38B002197D4 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				5009490E256FB1D3002197D4 /* Service.swift */,
+				50094912256FB385002197D4 /* Network.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		501FF925256FF0BF003193DE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				501FF921256FF03D003193DE /* Text+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		50410982256ECA8B00DCE270 = {
 			isa = PBXGroup;
 			children = (
@@ -55,6 +78,8 @@
 			children = (
 				5041098E256ECA8B00DCE270 /* WiBuddyApp.swift */,
 				50410990256ECA8B00DCE270 /* ContentView.swift */,
+				501FF925256FF0BF003193DE /* Extensions */,
+				50094915256FB38B002197D4 /* Service */,
 				50410992256ECA8C00DCE270 /* Assets.xcassets */,
 				50410997256ECA8C00DCE270 /* Info.plist */,
 				50410998256ECA8C00DCE270 /* WiBuddy.entitlements */,
@@ -142,6 +167,9 @@
 			files = (
 				50410991256ECA8B00DCE270 /* ContentView.swift in Sources */,
 				5041098F256ECA8B00DCE270 /* WiBuddyApp.swift in Sources */,
+				50094913256FB385002197D4 /* Network.swift in Sources */,
+				501FF922256FF03D003193DE /* Text+Extension.swift in Sources */,
+				5009490F256FB1D3002197D4 /* Service.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
