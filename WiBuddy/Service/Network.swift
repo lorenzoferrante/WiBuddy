@@ -20,9 +20,9 @@ public enum ChannelBand: CustomStringConvertible {
     
     public var description: String {
         switch self {
-        case .band2GHz: return "2GHz Band"
-        case .band5GHz: return "5GHz Band"
-        case .bandUnknown: return "Band Unknown"
+        case .band2GHz: return "2GHz"
+        case .band5GHz: return "5GHz"
+        case .bandUnknown: return "Unknown"
         }
     }
 }
@@ -36,17 +36,19 @@ public enum ChannelWidth: CustomStringConvertible {
     
     public var description: String {
         switch self {
-        case .width160MHz: return "160MHz Width"
-        case .width20MHz: return "20MHz Width"
-        case .width40MHz: return "40MHz Width"
-        case .width80MHz: return "80MHz Width"
-        case .widthUnknown: return "Width Unknown"
+        case .width160MHz: return "160MHz"
+        case .width20MHz: return "20MHz"
+        case .width40MHz: return "40MHz"
+        case .width80MHz: return "80MHz"
+        case .widthUnknown: return "Unknown"
         }
     }
 }
 
 public struct Network: Hashable {
+    var bssid: String?
     var ssid: String?
+    var rssi: Int?
     var channelNumber: Int?
     var channelBand: ChannelBand?
     var channelWidth: ChannelWidth?

@@ -35,8 +35,15 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
     private override init() {
         super.init()
         client.delegate = self
-        startScanning()
+        startScanLocationManager()
         connectedSSID = client.interface()?.ssid()
+    }
+    
+    private func startScanLocationManager() {
+        let locationManager: CLLocationManager = CLLocationManager()
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        startScanning()
     }
     
     public func scan() -> [Network]? {
@@ -47,10 +54,13 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
                 let netowrks = try en0.scanForNetworks(withName: nil)
                 for net in netowrks {
                     if let wlanChannel = net.wlanChannel {
-                        nets.append(Network(ssid: net.ssid,
-                                            channelNumber: wlanChannel.channelNumber,
-                                            channelBand: convertToChannelBand(wlanChannel.channelBand),
-                                            channelWidth: convertToChannelWidth(wlanChannel.channelWidth)))
+                        nets.append(Network(
+                                        bssid: net.bssid,
+                                        ssid: net.ssid,
+                                        rssi: net.rssiValue,
+                                        channelNumber: wlanChannel.channelNumber,
+                                        channelBand: convertToChannelBand(wlanChannel.channelBand),
+                                        channelWidth: convertToChannelWidth(wlanChannel.channelWidth)))
                         if (!channelList.contains(wlanChannel.channelNumber)) {
                             channelList.append(wlanChannel.channelNumber)
                         }
@@ -69,6 +79,7 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
     public func startScanning() {
         do {
             try client.startMonitoringEvent(with: .ssidDidChange)
+            try client.startMonitoringEvent(with: .bssidDidChange)
             isScanning = true
             print("[DEBUG] Started scanning...")
         } catch let error {
@@ -92,6 +103,12 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
 
 /* MARK: CWEventDelegate */
 extension Service {
+    
+    func bssidDidChangeForWiFiInterface(withName interfaceName: String) {
+        DispatchQueue.main.async {
+            self.connectedSSID = self.client.interface(withName: interfaceName)?.bssid()
+        }
+    }
     
     func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
         DispatchQueue.main.async {

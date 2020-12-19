@@ -10,6 +10,11 @@
 		5009490F256FB1D3002197D4 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009490E256FB1D3002197D4 /* Service.swift */; };
 		50094913256FB385002197D4 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50094912256FB385002197D4 /* Network.swift */; };
 		501FF922256FF03D003193DE /* Text+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501FF921256FF03D003193DE /* Text+Extension.swift */; };
+		502808FD258E3BE20066CBD7 /* SignalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502808FC258E3BE20066CBD7 /* SignalView.swift */; };
+		502BF340258BFD58003BCEF7 /* WiFiTableRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502BF33F258BFD58003BCEF7 /* WiFiTableRepresentable.swift */; };
+		502BF345258BFFD5003BCEF7 /* NetworkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502BF344258BFFD5003BCEF7 /* NetworkTable.swift */; };
+		502BF349258C08F8003BCEF7 /* TableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502BF347258C08F8003BCEF7 /* TableController.swift */; };
+		502BF34A258C08F8003BCEF7 /* TableController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502BF348258C08F8003BCEF7 /* TableController.xib */; };
 		5041098F256ECA8B00DCE270 /* WiBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5041098E256ECA8B00DCE270 /* WiBuddyApp.swift */; };
 		50410991256ECA8B00DCE270 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50410990256ECA8B00DCE270 /* ContentView.swift */; };
 		50410993256ECA8C00DCE270 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50410992256ECA8C00DCE270 /* Assets.xcassets */; };
@@ -20,6 +25,11 @@
 		5009490E256FB1D3002197D4 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		50094912256FB385002197D4 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		501FF921256FF03D003193DE /* Text+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Extension.swift"; sourceTree = "<group>"; };
+		502808FC258E3BE20066CBD7 /* SignalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalView.swift; sourceTree = "<group>"; };
+		502BF33F258BFD58003BCEF7 /* WiFiTableRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiFiTableRepresentable.swift; sourceTree = "<group>"; };
+		502BF344258BFFD5003BCEF7 /* NetworkTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTable.swift; sourceTree = "<group>"; };
+		502BF347258C08F8003BCEF7 /* TableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableController.swift; sourceTree = "<group>"; };
+		502BF348258C08F8003BCEF7 /* TableController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableController.xib; sourceTree = "<group>"; };
 		5041098B256ECA8B00DCE270 /* WiBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WiBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5041098E256ECA8B00DCE270 /* WiBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiBuddyApp.swift; sourceTree = "<group>"; };
 		50410990256ECA8B00DCE270 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +67,25 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		502BF33E258BFD0A003BCEF7 /* AppKit */ = {
+			isa = PBXGroup;
+			children = (
+				502BF33F258BFD58003BCEF7 /* WiFiTableRepresentable.swift */,
+				502BF347258C08F8003BCEF7 /* TableController.swift */,
+				502BF348258C08F8003BCEF7 /* TableController.xib */,
+			);
+			path = AppKit;
+			sourceTree = "<group>";
+		};
+		502BF342258BFFB3003BCEF7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				502BF344258BFFD5003BCEF7 /* NetworkTable.swift */,
+				502808FC258E3BE20066CBD7 /* SignalView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		50410982256ECA8B00DCE270 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +105,8 @@
 		5041098D256ECA8B00DCE270 /* WiBuddy */ = {
 			isa = PBXGroup;
 			children = (
+				502BF342258BFFB3003BCEF7 /* Views */,
+				502BF33E258BFD0A003BCEF7 /* AppKit */,
 				5041098E256ECA8B00DCE270 /* WiBuddyApp.swift */,
 				50410990256ECA8B00DCE270 /* ContentView.swift */,
 				501FF925256FF0BF003193DE /* Extensions */,
@@ -154,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50410996256ECA8C00DCE270 /* Preview Assets.xcassets in Resources */,
+				502BF34A258C08F8003BCEF7 /* TableController.xib in Resources */,
 				50410993256ECA8C00DCE270 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,9 +199,13 @@
 			files = (
 				50410991256ECA8B00DCE270 /* ContentView.swift in Sources */,
 				5041098F256ECA8B00DCE270 /* WiBuddyApp.swift in Sources */,
+				502BF340258BFD58003BCEF7 /* WiFiTableRepresentable.swift in Sources */,
 				50094913256FB385002197D4 /* Network.swift in Sources */,
+				502808FD258E3BE20066CBD7 /* SignalView.swift in Sources */,
+				502BF349258C08F8003BCEF7 /* TableController.swift in Sources */,
 				501FF922256FF03D003193DE /* Text+Extension.swift in Sources */,
 				5009490F256FB1D3002197D4 /* Service.swift in Sources */,
+				502BF345258BFFD5003BCEF7 /* NetworkTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

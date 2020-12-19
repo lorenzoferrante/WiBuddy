@@ -28,9 +28,10 @@ struct ContentView: View {
                         networks = nets
                     }
                 }
+            
+            NetworkTable(networks: $networks)
         }
         .navigationTitle("")
-        
     }
     
     func wifiList(_ networks: [Network]) -> some View {
@@ -57,7 +58,7 @@ struct ContentView: View {
                         } else {
                             HStack {
                                 Image(systemName: "wifi").imageScale(.small)
-                                Text(net.ssid!)
+                                Text(net.ssid ?? "no name")
                             }
                         }
                     }
