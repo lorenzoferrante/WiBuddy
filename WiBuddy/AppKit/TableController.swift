@@ -87,7 +87,7 @@ class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSou
             
             let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "rssiCell")
             guard let cellView = tableView.makeView(withIdentifier: cellIdentifier, owner: self) as? NSTableCellView else { return nil }
-            cellView.textField?.stringValue = "\(network.rssi ?? -1) dBm"
+            cellView.textField?.stringValue = "\(network.quality ?? -1)%"
             return cellView
             
         }

@@ -128,19 +128,7 @@ struct ContentView: View {
                 ToolbarItem(placement: .navigation) {
                     makeTitle()
                         .padding(0)
-                        .background(Color.secondary.opacity(0.1))
-                        .cornerRadius(5.0)
                         .frame(alignment: .center)
-                }
-                
-                ToolbarItem(placement: .navigation) {
-                    Button(action: {
-                        toggleSidebar()
-                    }, label: {
-                        Image(systemName: "sidebar.trailing")
-                            .foregroundColor(.primary)
-                            .imageScale(.medium)
-                    })
                 }
             }
         }
@@ -152,19 +140,6 @@ struct ContentView: View {
             VStack(alignment: HorizontalAlignment.center) {
                 HStack(alignment: VerticalAlignment.center) {
                     Spacer()
-                    ProgressView()
-                        .scaleEffect(0.5)
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .rotationEffect(.degrees(360))
-                        .animation(.linear(duration: 1.5))
-                        .accessibility(hidden: (service.isScanning ? true : false))
-                        .onAppear(perform: {
-                            self.isAnimating = true
-                        })
-                    Text("Status: \(service.status?.rawValue ?? "Unknown")")
-                        .statusFontDesign()
-                    Text(" | ")
-                        .statusFontDesign()
                     if let ssid = service.connectedSSID {
                         HStack {
                             Text("Connected to: ").statusFontDesign()
@@ -173,6 +148,16 @@ struct ContentView: View {
                     } else {
                         Text("Not Connected").bold().statusFontDesign().foregroundColor(.red)
                     }
+                    Spacer()
+                    ProgressView()
+                        .scaleEffect(0.5)
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .rotationEffect(.degrees(360))
+                        .animation(.linear(duration: 1.5))
+                        .opacity((service.isScanning ? 1.0 : 0.0))
+                        .onAppear(perform: {
+                            self.isAnimating = true
+                        })
                     Spacer()
                 }
                 .padding(0)

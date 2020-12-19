@@ -49,6 +49,9 @@ public struct Network: Hashable {
     var bssid: String?
     var ssid: String?
     var rssi: Int?
+    var quality: Int? {
+        return (2 * ((rssi ?? -1) + 100))
+    }
     var channelNumber: Int?
     var channelBand: ChannelBand?
     var channelWidth: ChannelWidth?
