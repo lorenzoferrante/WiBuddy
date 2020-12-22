@@ -8,9 +8,17 @@
 import Cocoa
 import SwiftUI
 
-class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSource, NetworksUpdate {
+protocol NSTableViewClickableDelegate: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView, didClickRow row: Int, didClickColumn: Int)
+}
+
+class NSClickableTableView: NSTableView {
+    weak open var clickableDelegate: NSTableViewClickableDelegate?
+}
+
+class TableController: NSViewController, NSTableViewDataSource, NetworksUpdate, NSTableViewClickableDelegate, NSTableViewDelegate {
     
-    @IBOutlet var tableView: NSTableView!
+    @IBOutlet weak var tableView: NSClickableTableView!
     
     var networkDelegate: NetworksUpdate?
     
@@ -23,6 +31,7 @@ class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         
         tableView.delegate = self
         tableView.dataSource = self
+        //tableView.clickableDelegate = self
         tableView.usesAlternatingRowBackgroundColors = true
         tableView.style = .fullWidth
         tableView.rowSizeStyle = .medium
@@ -100,8 +109,6 @@ class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         rowView.isEmphasized = false
         return rowView
     }
-    
-    
 
     
     func networkListDidUpdate(networks: [Network]) {
@@ -109,4 +116,27 @@ class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         self.tableView.reloadData()
     }
     
+    func tableView(_ tableView: NSTableView, didClickRow row: Int, didClickColumn: Int) {
+        print("Row: \(row) - Col: \(didClickColumn)")
+    }
+    
 }
+
+extension NSTableView {
+    
+    open override func mouseDown(with event: NSEvent) {
+        let localLocation = self.convert(event.locationInWindow, to: nil)
+        let clickedRow = self.row(at: localLocation)
+        let clickedColumn = self.column(at: localLocation)
+
+        super.mouseDown(with: event)
+
+        guard clickedRow >= 0, clickedColumn >= 0, let delegate = self.delegate as? NSTableViewClickableDelegate else {
+            return
+        }
+
+        delegate.tableView(self, didClickRow: clickedRow, didClickColumn: clickedColumn)
+    }
+    
+}
+

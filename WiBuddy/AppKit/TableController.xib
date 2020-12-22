@@ -7,7 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TableController" customModule="WiBuddy" customModuleProvider="target">
             <connections>
-                <outlet property="tableView" destination="Lwz-4E-R4d" id="cKH-ss-66v"/>
+                <outlet property="tableView" destination="Lwz-4E-R4d" id="6q8-iY-rPD"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -171,11 +171,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="widthCell" id="3qA-eG-wc9">
-                                                <rect key="frame" x="519.5" y="0.0" width="79" height="24"/>
+                                                <rect key="frame" x="519.5" y="0.0" width="78" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kJ2-4V-gkO">
-                                                        <rect key="frame" x="0.0" y="4" width="79" height="16"/>
+                                                        <rect key="frame" x="0.0" y="4" width="78" height="16"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Y6V-hI-212">
                                                             <font key="font" usesAppearanceFont="YES"/>
