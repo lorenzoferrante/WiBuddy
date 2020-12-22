@@ -14,22 +14,15 @@ struct ContentView: View {
     @ObservedObject var service = Service.shared
     
     var bands = ["2 GHz", "5 GHz"]
-    let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
-    
-    @State var networks: [Network] = Service.shared.scan() ?? []
-    
     
     var body: some View {
-        
         NavigationView {
-            wifiList(networks)
-                .onReceive(timer) { (_) in
-                    if let nets = self.service.scan() {
-                        networks = nets
-                    }
-                }
+            wifiList(service.nets)
             
-            NetworkTable(networks: $networks)
+            VStack {
+                NetworkTable()
+                BottomView()
+            }
         }
         .navigationTitle("")
     }
@@ -130,6 +123,7 @@ struct ContentView: View {
                         .padding(0)
                         .frame(alignment: .center)
                 }
+
             }
         }
         return body
@@ -155,9 +149,6 @@ struct ContentView: View {
                         .rotationEffect(.degrees(360))
                         .animation(.linear(duration: 1.5))
                         .opacity((service.isScanning ? 1.0 : 0.0))
-                        .onAppear(perform: {
-                            self.isAnimating = true
-                        })
                     Spacer()
                 }
                 .padding(0)

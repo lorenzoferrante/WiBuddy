@@ -8,6 +8,11 @@
 import Foundation
 import CoreWLAN
 
+public struct NetworkSNR {
+    var rssi: Int
+    var noise: Int
+}
+
 public enum ServiceStatus: String {
     case scanning = "Scanning"
     case stopped = "Stopped"
@@ -45,12 +50,22 @@ public enum ChannelWidth: CustomStringConvertible {
     }
 }
 
+private func calculateQualityPercentage(rssi: Int) -> Int {
+    if (rssi <= -110) {
+        return 0
+    } else if (rssi >= -40){
+        return 100
+    } else {
+        return rssi + 110
+    }
+}
+
 public struct Network: Hashable {
     var bssid: String?
     var ssid: String?
     var rssi: Int?
     var quality: Int? {
-        return (2 * ((rssi ?? -1) + 100))
+        return min(calculateQualityPercentage(rssi: rssi!), 100)
     }
     var channelNumber: Int?
     var channelBand: ChannelBand?

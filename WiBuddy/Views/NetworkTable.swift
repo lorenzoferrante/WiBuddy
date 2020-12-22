@@ -9,16 +9,16 @@ import SwiftUI
 
 struct NetworkTable: View {
     
-    @Binding var networks: Array<Network>
+    @ObservedObject var service = Service.shared
     
     var body: some View {
-        WiFiTable(networks: $networks)
+        WiFiTable()
             .frame(alignment: .topLeading)
     }
 }
 
 struct NetworkTable_Previews: PreviewProvider {
     static var previews: some View {
-        NetworkTable(networks: .constant([]))
+        NetworkTable()
     }
 }

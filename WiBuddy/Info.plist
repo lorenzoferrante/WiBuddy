@@ -18,6 +18,10 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Needs to obtain Wi-Fi information such as BSSID...</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Needs to obtain Wi-Fi information such as BSSID...</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 </dict>

@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import SwiftUI
 
 class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSource, NetworksUpdate {
     
@@ -13,11 +14,7 @@ class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSou
     
     var networkDelegate: NetworksUpdate?
     
-    var networks: Array<Network> = [] {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
+    var networks: Array<Network> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,10 +82,13 @@ class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         
         else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "rssiColumn") {
             
-            let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "rssiCell")
-            guard let cellView = tableView.makeView(withIdentifier: cellIdentifier, owner: self) as? NSTableCellView else { return nil }
-            cellView.textField?.stringValue = "\(network.quality ?? -1)%"
-            return cellView
+            //let cellIdentifier = NSUserInterfaceItemIdentifier(rawValue: "rssiCell")
+            let signalView = NSHostingView(rootView: SignalView(dbm: network.rssi!,
+                                                                percentage: network.quality!,
+                                                                height: 13.0,
+                                                                radius: 5.0,
+                                                                ratio: 0.25))
+            return signalView
             
         }
         
@@ -100,6 +100,8 @@ class TableController: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         rowView.isEmphasized = false
         return rowView
     }
+    
+    
 
     
     func networkListDidUpdate(networks: [Network]) {

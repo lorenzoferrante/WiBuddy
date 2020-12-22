@@ -9,7 +9,7 @@ import Foundation
 import CoreWLAN
 import SwiftUI
 
-class Service: NSObject, CWEventDelegate, ObservableObject {
+class Service: NSObject, CWEventDelegate, ObservableObject, CLLocationManagerDelegate {
     
     static let shared = Service()
     
@@ -26,11 +26,16 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
         }
     }
     
-    private var nets: [Network]?
+    @Published public var networkSNR: NetworkSNR = NetworkSNR(rssi: 0, noise: 0)
+    
+    @Published public var nets: [Network] = []
+    
     private var interface: CWInterface? {
         return client.interface()
     }
     private let client: CWWiFiClient = CWWiFiClient.shared()
+    
+    var timer: Timer!
     
     private override init() {
         super.init()
@@ -41,14 +46,20 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
     
     private func startScanLocationManager() {
         let locationManager: CLLocationManager = CLLocationManager()
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-        startScanning()
+        if #available(macOS 10.15, *) {
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+            timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { (_) in
+                self.scan()
+            })
+        }
     }
     
-    public func scan() -> [Network]? {
+    public func scan() {
+        self.startScanning()
+        
+        self.nets = []
         channelList = []
-        var nets: [Network] = []
         if let en0 = interface {
             do {
                 let netowrks = try en0.scanForNetworks(withName: nil)
@@ -61,25 +72,22 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
                                         channelNumber: wlanChannel.channelNumber,
                                         channelBand: convertToChannelBand(wlanChannel.channelBand),
                                         channelWidth: convertToChannelWidth(wlanChannel.channelWidth)))
-                        if (!channelList.contains(wlanChannel.channelNumber)) {
-                            channelList.append(wlanChannel.channelNumber)
+                        if (!self.channelList.contains(wlanChannel.channelNumber)) {
+                            self.channelList.append(wlanChannel.channelNumber)
                         }
                     }
                 }
-                self.nets = nets
-                return nets
             } catch let error {
                 print("[ERROR] \(error.localizedDescription)")
-                return nil
+                self.stopScanning()
             }
+            self.stopScanning()
         }
-        return nil
     }
     
     public func startScanning() {
         do {
             try client.startMonitoringEvent(with: .ssidDidChange)
-            try client.startMonitoringEvent(with: .bssidDidChange)
             isScanning = true
             print("[DEBUG] Started scanning...")
         } catch let error {
@@ -93,6 +101,22 @@ class Service: NSObject, CWEventDelegate, ObservableObject {
                 try client.stopMonitoringAllEvents()
                 isScanning = false
                 print("[DEBUG] Stopped scanning...")
+            } catch let error {
+                print("[ERROR] \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    public func scanFor(networkName: String, band: ChannelBand) {
+        if let en0 = interface {
+            do {
+                let netowrks = try en0.scanForNetworks(withName: networkName)
+                for net in netowrks {
+                    if (convertToChannelBand(net.wlanChannel?.channelBand) == band) {
+                        self.networkSNR.rssi = net.rssiValue
+                        self.networkSNR.noise = net.noiseMeasurement
+                    }
+                }
             } catch let error {
                 print("[ERROR] \(error.localizedDescription)")
             }
