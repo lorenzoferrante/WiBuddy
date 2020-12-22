@@ -26,7 +26,13 @@ class Service: NSObject, CWEventDelegate, ObservableObject, CLLocationManagerDel
         }
     }
     
-    @Published public var networkSNR: NetworkSNR = NetworkSNR(rssi: 0, noise: 0)
+    @Published public var selectedSNR: NetworkSNR = NetworkSNR(rssi: -1, noise: -1)
+    @Published public var selectedNetork: Network? {
+        didSet {
+            stopScanning()
+            scanFor(selectedNetork)
+        }
+    }
     
     @Published public var nets: [Network] = []
     
@@ -69,6 +75,7 @@ class Service: NSObject, CWEventDelegate, ObservableObject, CLLocationManagerDel
                                         bssid: net.bssid,
                                         ssid: net.ssid,
                                         rssi: net.rssiValue,
+                                        noise: net.noiseMeasurement,
                                         channelNumber: wlanChannel.channelNumber,
                                         channelBand: convertToChannelBand(wlanChannel.channelBand),
                                         channelWidth: convertToChannelWidth(wlanChannel.channelWidth)))
@@ -107,18 +114,20 @@ class Service: NSObject, CWEventDelegate, ObservableObject, CLLocationManagerDel
         }
     }
     
-    public func scanFor(networkName: String, band: ChannelBand) {
-        if let en0 = interface {
-            do {
-                let netowrks = try en0.scanForNetworks(withName: networkName)
-                for net in netowrks {
-                    if (convertToChannelBand(net.wlanChannel?.channelBand) == band) {
-                        self.networkSNR.rssi = net.rssiValue
-                        self.networkSNR.noise = net.noiseMeasurement
+    public func scanFor(_ network: Network?) {
+        if let network = network {
+            if let en0 = interface {
+                do {
+                    let netowrks = try en0.scanForNetworks(withName: network.ssid)
+                    for net in netowrks {
+                        if (convertToChannelBand(net.wlanChannel?.channelBand) == network.channelBand) {
+                            self.selectedSNR.rssi = net.rssiValue
+                            self.selectedSNR.noise = net.noiseMeasurement
+                        }
                     }
+                } catch let error {
+                    print("[ERROR] \(error.localizedDescription)")
                 }
-            } catch let error {
-                print("[ERROR] \(error.localizedDescription)")
             }
         }
     }

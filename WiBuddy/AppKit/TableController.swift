@@ -8,18 +8,11 @@
 import Cocoa
 import SwiftUI
 
-protocol NSTableViewClickableDelegate: NSTableViewDelegate {
-    func tableView(_ tableView: NSTableView, didClickRow row: Int, didClickColumn: Int)
-}
-
-class NSClickableTableView: NSTableView {
-    weak open var clickableDelegate: NSTableViewClickableDelegate?
-}
-
-class TableController: NSViewController, NSTableViewDataSource, NetworksUpdate, NSTableViewClickableDelegate, NSTableViewDelegate {
+class TableController: NSViewController, NSTableViewDataSource, NetworksUpdate, NSTableViewDelegate {
     
-    @IBOutlet weak var tableView: NSClickableTableView!
+    @IBOutlet weak var tableView: NSTableView!
     
+    var doubleTappedRow: Int = 0
     var networkDelegate: NetworksUpdate?
     
     var networks: Array<Network> = []
@@ -31,10 +24,12 @@ class TableController: NSViewController, NSTableViewDataSource, NetworksUpdate, 
         
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.clickableDelegate = self
         tableView.usesAlternatingRowBackgroundColors = true
         tableView.style = .fullWidth
         tableView.rowSizeStyle = .medium
+        
+        tableView.target = self
+        tableView.doubleAction = #selector(tableViewDidClick(_:))
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -116,27 +111,11 @@ class TableController: NSViewController, NSTableViewDataSource, NetworksUpdate, 
         self.tableView.reloadData()
     }
     
-    func tableView(_ tableView: NSTableView, didClickRow row: Int, didClickColumn: Int) {
-        print("Row: \(row) - Col: \(didClickColumn)")
-    }
-    
-}
-
-extension NSTableView {
-    
-    open override func mouseDown(with event: NSEvent) {
-        let localLocation = self.convert(event.locationInWindow, to: nil)
-        let clickedRow = self.row(at: localLocation)
-        let clickedColumn = self.column(at: localLocation)
-
-        super.mouseDown(with: event)
-
-        guard clickedRow >= 0, clickedColumn >= 0, let delegate = self.delegate as? NSTableViewClickableDelegate else {
-            return
+    @objc func tableViewDidClick(_ tableView: NSTableView) {
+        if (tableView.clickedRow != doubleTappedRow) {
+            Service.shared.selectedNetork = self.networks[tableView.clickedRow]
+            doubleTappedRow = tableView.clickedRow
         }
-
-        delegate.tableView(self, didClickRow: clickedRow, didClickColumn: clickedColumn)
     }
     
 }
-

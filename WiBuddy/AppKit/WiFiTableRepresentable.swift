@@ -21,12 +21,14 @@ struct WiFiTable: NSViewControllerRepresentable {
     
     func makeNSViewController(context: Context) -> TableController {
         let tableController = TableController(nibName: NSNib.Name("TableController"), bundle: nil)
-        tableController.networkDelegate?.networkListDidUpdate(networks: service.nets)
+        let nets = service.nets.sorted(by: { $0.quality! > $1.quality! })
+        tableController.networkDelegate?.networkListDidUpdate(networks: nets)
         return tableController
     }
     
     func updateNSViewController(_ nsViewController: TableController, context: Context) {
-        nsViewController.networkDelegate?.networkListDidUpdate(networks: service.nets)
+        let nets = service.nets.sorted(by: { $0.quality! > $1.quality! })
+        nsViewController.networkDelegate?.networkListDidUpdate(networks: nets)
         nsViewController.tableView.reloadData()
     }
     

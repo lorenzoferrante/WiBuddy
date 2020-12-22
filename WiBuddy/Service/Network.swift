@@ -67,6 +67,7 @@ public struct Network: Hashable {
     var quality: Int? {
         return min(calculateQualityPercentage(rssi: rssi!), 100)
     }
+    var noise: Int? 
     var channelNumber: Int?
     var channelBand: ChannelBand?
     var channelWidth: ChannelWidth?

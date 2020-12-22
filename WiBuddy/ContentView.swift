@@ -17,7 +17,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            wifiList(service.nets)
+            wifiList(service.nets.sorted(by: { $0.quality! > $1.quality! }))
             
             VStack {
                 NetworkTable()

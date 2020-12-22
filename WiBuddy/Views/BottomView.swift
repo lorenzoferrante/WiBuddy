@@ -12,21 +12,26 @@ struct BottomView: View {
     @State var network: Network?
     @ObservedObject var service = Service.shared
     
-    var timer = Timer.publish(every: 1, on: .main, in: .common)
+    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
         GeometryReader { geometry in
             
-            VStack {
-                Text("RSSI: \(service.networkSNR.rssi) - NOISE: \(service.networkSNR.noise)")
+            VStack(alignment: .leading) {
+                Text("\(service.selectedNetork?.ssid ?? "unknown")")
+                    .font(Font.system(size: 15.0, weight: .bold, design: .monospaced))
+                Text("RSSI: \((service.selectedSNR.rssi) ?? -1) - NOISE: \((service.selectedSNR.noise) ?? -1)")
+                    .font(Font.system(size: 13.0, weight: .semibold, design: .monospaced))
             }
             .onReceive(timer, perform: { (_) in
+                print("timer updated")
                 if let net = network {
-                    service.scanFor(networkName: net.ssid!, band: net.channelBand!)
+                    service.selectedNetork = net
                 }
             })
             .frame(height: (geometry.size.height / 2))
+            .padding()
         }
     }
 }
